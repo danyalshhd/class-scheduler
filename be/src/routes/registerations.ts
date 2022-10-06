@@ -23,10 +23,6 @@ const upload = multer({
   storage: storage,
 })
 
-router.get("/v1/test", (req, res) => {
-  res.json("test");
-})
-
 router.post("/v1/registerations", upload.single('uploadcsv'),
   async (req: Request, res: Response) => {
     try {
@@ -39,7 +35,6 @@ router.post("/v1/registerations", upload.single('uploadcsv'),
       
       const registerationService = new RegisterationsService();
       const parsedcsv = await registerationService.parseCsv(__dirname + '/uploads/' + req.file.filename);
-      console.log(parsedcsv);
       const getExistingSchedules = await registerationService.getExistingSchedules(parsedcsv);
 
       parsedcsv.forEach((upComReg, pdIndex) => {
@@ -87,9 +82,7 @@ router.post("/v1/registerations", upload.single('uploadcsv'),
         if (getSameScheduledClass) {
           status = "class already scheduled at this time with either same instructor or student"
         }
-        // console.log(upComReg);
-        // console.log(status);
-        // console.log("========")
+       
         if (!status) {
           //TODO: Make definitions for actions[new, update, delete]
           if (upComReg.action === 'new') {
@@ -123,9 +116,6 @@ router.post("/v1/registerations", upload.single('uploadcsv'),
           status,
         })
       })
-      console.log(deleteCollection)
-      console.log("==============")
-      console.log(insertCollection)
 
       deleteCollection.length && await registerationService.deleteRecords(deleteCollection);
       insertCollection.length && await registerationService.insertRecords(insertCollection);
