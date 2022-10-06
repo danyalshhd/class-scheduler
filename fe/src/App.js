@@ -29,8 +29,8 @@ const App = () => {
     const config = { headers: { 'Content-Type': 'multipart/form-data' } };
     
     isLoading(true)
-    const result = await axios.post("https://excellence-driving.herokuapp.com/v1/registerations", formData, config)
-    const stats = await axios.get("https://excellence-driving.herokuapp.com/v1/registerations/stats")
+    const result = await axios.post("http://localhost:3000/v1/registerations", formData, config)
+    const stats = await axios.get("http://localhost:3000/v1/registerations/stats")
     isLoading(false)
     
     setRegistrationStats(stats.data);
