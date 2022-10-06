@@ -1,6 +1,7 @@
 const csv = require('csvtojson')
 import 'dotenv/config';
 import { Registeration } from '../models/registerations';
+import { BadRequestError } from '@dstransaction/common';
 
 export class RegisterationsService {
     constructor() {   
@@ -49,7 +50,7 @@ export class RegisterationsService {
             return isOverlapped;
         }
         catch (error) {
-            console.log(error.message)
+            throw new BadRequestError(error.message);
         }
     }
 
@@ -59,7 +60,7 @@ export class RegisterationsService {
                 console.log('data inserted');
             })
             .catch(error => {
-                console.log(error.message);
+                throw new BadRequestError(error.message);
             })
     }
 
@@ -72,7 +73,7 @@ export class RegisterationsService {
             console.log('records deleted');
         })
         .catch(error => {
-            console.log(error.message);
+            throw new BadRequestError(error.message);
         })
     }
 }
